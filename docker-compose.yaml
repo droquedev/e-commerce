@@ -11,6 +11,8 @@ services:
     depends_on:
       - users-service
       - products-service
+    networks:
+      - mynetwork
 
   users-service:
     build:
@@ -20,8 +22,12 @@ services:
       - "3001:3000"
     environment:
       MONGO_CONNECTION_STRING: "mongodb://mongo:27017/usersdb"
+      NATS_URL: "nats://nats-streaming:4222"
     depends_on:
       - mongo
+      - nats-streaming
+    networks:
+      - mynetwork
 
   products-service:
     build:
@@ -31,8 +37,12 @@ services:
       - "3002:4000"
     environment:
       POSTGRES_CONNECTION_STRING: "postgres://postgres:password@postgres:5432/productsdb?sslmode=disable"
+      NATS_URL: "nats://nats-streaming:4222"
     depends_on:
       - postgres
+      - nats-streaming
+    networks:
+      - mynetwork
 
   mongo:
     image: mongo:latest
@@ -43,6 +53,8 @@ services:
       MONGO_INITDB_DATABASE: usersdb
     volumes:
       - ./mongo-data:/data/db
+    networks:
+      - mynetwork
 
   postgres:
     image: postgres:latest
@@ -55,3 +67,17 @@ services:
       POSTGRES_PASSWORD: password
     volumes:
       - ./postgres-data:/var/lib/postgresql/data
+    networks:
+      - mynetwork
+
+  nats-streaming:
+    image: "nats-streaming:latest"
+    container_name: nats-streaming
+    ports:
+      - "4222:4222"
+      - "8222:8222"
+    networks:
+      - mynetwork
+
+networks:
+  mynetwork:

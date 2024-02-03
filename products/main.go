@@ -5,9 +5,11 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"time"
 
 	"github.com/gin-gonic/gin"
 	_ "github.com/lib/pq"
+	"github.com/nats-io/stan.go"
 )
 
 const (
@@ -18,10 +20,27 @@ const (
 	dbname   = "productsdb"
 )
 
+var natsConn stan.Conn
 var db *sql.DB
 
 func init() {
 	var err error
+	time.Sleep(5 * time.Second)
+	natsConn, err = stan.Connect("test-cluster", "products-service", stan.NatsURL("nats://nats-streaming:4222"))
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	_, err = natsConn.Subscribe("user.created", func(msg *stan.Msg) {
+		log.Printf("Received user.created event: %s", string(msg.Data))
+		msg.Ack()
+		// Handle the event as needed
+	}, stan.StartAt(0), stan.SetManualAckMode())
+
+	if err != nil {
+		log.Fatal(err)
+	}
+
 	psqlInfo := fmt.Sprintf("host=%s port=%d user=%s "+
 		"password=%s dbname=%s sslmode=disable",
 		host, port, user, password, dbname)
