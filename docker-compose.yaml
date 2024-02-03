@@ -1,0 +1,57 @@
+version: "3"
+
+services:
+  nginx:
+    image: nginx:latest
+    container_name: nginx
+    ports:
+      - "3000:80"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf
+    depends_on:
+      - users-service
+      - products-service
+
+  users-service:
+    build:
+      context: ./users
+    container_name: users-service
+    ports:
+      - "3001:3000"
+    environment:
+      MONGO_CONNECTION_STRING: "mongodb://mongo:27017/usersdb"
+    depends_on:
+      - mongo
+
+  products-service:
+    build:
+      context: ./products
+    container_name: products-service
+    ports:
+      - "3002:4000"
+    environment:
+      POSTGRES_CONNECTION_STRING: "postgres://postgres:password@postgres:5432/productsdb?sslmode=disable"
+    depends_on:
+      - postgres
+
+  mongo:
+    image: mongo:latest
+    container_name: mongo
+    ports:
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_DATABASE: usersdb
+    volumes:
+      - ./mongo-data:/data/db
+
+  postgres:
+    image: postgres:latest
+    container_name: postgres
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_DB: productsdb
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+    volumes:
+      - ./postgres-data:/var/lib/postgresql/data
