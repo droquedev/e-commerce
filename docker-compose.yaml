@@ -16,45 +16,53 @@ services:
 
   users-service:
     build:
-      context: ./users
+      context: .
+      args:
+        - TARGET=users
     container_name: users-service
     ports:
-      - "3001:3000"
+      - "8080:8080"
     environment:
-      MONGO_CONNECTION_STRING: "mongodb://mongo:27017/usersdb"
-      NATS_URL: "nats://nats-streaming:4222"
-    depends_on:
-      - mongo
-      - nats-streaming
-    networks:
-      - mynetwork
-
-  products-service:
-    build:
-      context: ./products
-    container_name: products-service
-    ports:
-      - "3002:4000"
-    environment:
-      POSTGRES_CONNECTION_STRING: "postgres://postgres:password@postgres:5432/productsdb?sslmode=disable"
-      NATS_URL: "nats://nats-streaming:4222"
+      MONGO_URI: "mongodb://mongo:27017/usersdb"
+      NATS_URI: "nats://nats-streaming:4222"
+      NATS_CLUSTER_ID: "test-cluster"
+      NATS_CLIENT_ID: "users-service"
     depends_on:
       - postgres
       - nats-streaming
     networks:
       - mynetwork
 
-  mongo:
-    image: mongo:latest
-    container_name: mongo
+  products-service:
+    build:
+      context: .
+      args:
+        - TARGET=products
+    container_name: products-service
     ports:
-      - "27017:27017"
+      - "8081:8080"
     environment:
-      MONGO_INITDB_DATABASE: usersdb
-    volumes:
-      - ./mongo-data:/data/db
+      POSTGRES_URI: "postgres://postgres:password@postgres:5432/productsdb?sslmode=disable"
+      NATS_URI: "nats://nats-streaming:4222"
+      NATS_CLUSTER_ID: "test-cluster"
+      NATS_CLIENT_ID: "products-service"
+    depends_on:
+      - postgres
+      - nats-streaming
     networks:
       - mynetwork
+
+  # mongo:
+  #   image: mongo:latest
+  #   container_name: mongo
+  #   ports:
+  #     - "27017:27017"
+  #   environment:
+  #     MONGO_INITDB_DATABASE: usersdb
+  #   volumes:
+  #     - ./mongo-data:/data/db
+  #   networks:
+  #     - mynetwork
 
   postgres:
     image: postgres:latest
