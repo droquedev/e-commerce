@@ -1,6 +1,6 @@
 package use_cases
 
-import "github.com/droquedev/e-commerce/users/internal/entities"
+import "github.com/droquedev/e-commerce/users-service/internal/entities"
 
 type UserUseCases struct {
 	userRepository entities.UserRepository

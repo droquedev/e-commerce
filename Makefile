@@ -27,10 +27,10 @@ clean-bins:
 products-service:
 	@printf $(BLUE) "Building products-service with OS: $(GOOS), ARCH: $(GOARCH)..."
 	@mkdir -p bins
-	@go build -o bins/products-service cmd/products-service/main.go
+	@go build -o bins/products-service products-service/cmd/main.go
 
 .PHONY: users-service
 users-service:
 	@printf $(BLUE) "Building users-service with OS: $(GOOS), ARCH: $(GOARCH)..."
 	@mkdir -p bins
-	@go build -o bins/users-service cmd/users-service/main.go
+	@go build -o bins/users-service users-service/cmd/main.go

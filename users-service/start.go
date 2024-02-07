@@ -4,7 +4,7 @@ import (
 	"net/http"
 
 	middleware "github.com/droquedev/e-commerce/pkg/middlewares"
-	"github.com/droquedev/e-commerce/users/internal/routes"
+	"github.com/droquedev/e-commerce/users-service/internal/routes"
 	"github.com/gin-gonic/gin"
 )
 

@@ -3,9 +3,9 @@ package handlers
 import (
 	"net/http"
 
-	"github.com/droquedev/e-commerce/users/internal/dto"
-	"github.com/droquedev/e-commerce/users/internal/entities"
-	"github.com/droquedev/e-commerce/users/internal/use_cases"
+	"github.com/droquedev/e-commerce/users-service/internal/dto"
+	"github.com/droquedev/e-commerce/users-service/internal/entities"
+	"github.com/droquedev/e-commerce/users-service/internal/use_cases"
 	"github.com/gin-gonic/gin"
 	"github.com/go-playground/validator/v10"
 	"github.com/google/uuid"

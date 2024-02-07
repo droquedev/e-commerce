@@ -6,7 +6,7 @@ import (
 	"log"
 
 	"github.com/droquedev/e-commerce/pkg/nats"
-	"github.com/droquedev/e-commerce/users/internal/entities"
+	"github.com/droquedev/e-commerce/users-service/internal/entities"
 )
 
 func (u *UserUseCases) UserCreator(user *entities.User) error {

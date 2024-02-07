@@ -1,9 +1,9 @@
 package routes
 
 import (
-	"github.com/droquedev/e-commerce/users/internal/handlers"
-	"github.com/droquedev/e-commerce/users/internal/repository"
-	"github.com/droquedev/e-commerce/users/internal/use_cases"
+	"github.com/droquedev/e-commerce/users-service/internal/handlers"
+	"github.com/droquedev/e-commerce/users-service/internal/repository"
+	"github.com/droquedev/e-commerce/users-service/internal/use_cases"
 	"github.com/gin-gonic/gin"
 )
 

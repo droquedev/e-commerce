@@ -8,7 +8,7 @@ import (
 	"time"
 
 	"github.com/droquedev/e-commerce/pkg/nats"
-	"github.com/droquedev/e-commerce/products/listeners"
+	"github.com/droquedev/e-commerce/products-service/internal/listeners"
 	"github.com/gin-gonic/gin"
 	_ "github.com/lib/pq"
 )

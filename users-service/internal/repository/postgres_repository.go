@@ -3,7 +3,7 @@ package repository
 import (
 	"errors"
 
-	"github.com/droquedev/e-commerce/users/internal/entities"
+	"github.com/droquedev/e-commerce/users-service/internal/entities"
 )
 
 type UserPostgresRepository struct {
