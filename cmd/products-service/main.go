@@ -8,9 +8,9 @@ import (
 	"time"
 
 	"github.com/droquedev/e-commerce/pkg/nats"
+	"github.com/droquedev/e-commerce/products/listeners"
 	"github.com/gin-gonic/gin"
 	_ "github.com/lib/pq"
-	"github.com/nats-io/stan.go"
 )
 
 const (
@@ -26,16 +26,6 @@ var db *sql.DB
 func init() {
 	var err error
 	time.Sleep(5 * time.Second)
-
-	natsConn := nats.GetNatsConn().NatsConn
-
-	natsListener := nats.NewBaseListener(natsConn, "user:created", "products-service")
-
-	natsListener.Listen(func(msg *stan.Msg) {
-		log.Printf("Received user.created event: %s", string(msg.Data))
-		msg.Ack()
-		// Handle the event as needed
-	})
 
 	psqlInfo := fmt.Sprintf("host=%s port=%d user=%s "+
 		"password=%s dbname=%s sslmode=disable",
@@ -75,6 +65,10 @@ var products []Product = []Product{
 
 func main() {
 	router := gin.Default()
+
+	natsConn := nats.GetNatsConn().NatsConn
+
+	listeners.InitializeListeners(natsConn)
 
 	router.GET("/products", getProducts)
 	router.POST("/products", addProduct)

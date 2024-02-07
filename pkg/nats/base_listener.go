@@ -7,9 +7,9 @@ import (
 	"github.com/nats-io/stan.go"
 )
 
-type Event struct {
-	Subject string      `json:"subject"`
-	Data    interface{} `json:"data"`
+type Listener interface {
+	Listen()
+	OnMessage(message *stan.Msg)
 }
 
 type BaseListener struct {

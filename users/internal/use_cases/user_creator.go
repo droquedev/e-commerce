@@ -7,10 +7,7 @@ import (
 
 	"github.com/droquedev/e-commerce/pkg/nats"
 	"github.com/droquedev/e-commerce/users/internal/entities"
-	"github.com/nats-io/stan.go"
 )
-
-var natsConn stan.Conn
 
 func (u *UserUseCases) UserCreator(user *entities.User) error {
 
