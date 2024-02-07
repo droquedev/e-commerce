@@ -4,8 +4,8 @@ import (
 	"encoding/json"
 	"errors"
 	"log"
-	"os"
 
+	"github.com/droquedev/e-commerce/pkg/nats"
 	"github.com/droquedev/e-commerce/users/internal/entities"
 	"github.com/nats-io/stan.go"
 )
@@ -20,16 +20,7 @@ func (u *UserUseCases) UserCreator(user *entities.User) error {
 	// 	{Field: "email", Operator: "=", Value: user.Email},
 	// }
 
-	natsConn, err = stan.Connect("test-cluster", "users-service", stan.NatsURL(os.Getenv("NATS_URI")))
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	_, err = natsConn.Subscribe("user:created", func(msg *stan.Msg) {
-		log.Printf("Received user.created event: %s", string(msg.Data))
-		msg.Ack()
-		// Handle the event as needed
-	}, stan.StartAt(0), stan.SetManualAckMode())
+	natsConn := nats.GetNatsConn().NatsConn
 
 	if err != nil {
 		log.Fatal(err)
