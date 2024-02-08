@@ -16,7 +16,7 @@ ifndef GOARCH
 GOARCH := $(shell go env GOARCH)
 endif
 
-bins: clean-bins products-service users-service
+bins: clean-bins products-service users-service notification-service
 
 .PHONY: clean-bins
 clean-bins:
@@ -34,3 +34,9 @@ users-service:
 	@printf $(BLUE) "Building users-service with OS: $(GOOS), ARCH: $(GOARCH)..."
 	@mkdir -p bins
 	@go build -o bins/users-service users-service/cmd/main.go
+
+.PHONY: notification-service
+notification-service:
+	@printf $(BLUE) "Building notification-service with OS: $(GOOS), ARCH: $(GOARCH)..."
+	@mkdir -p bins
+	@go build -o bins/notification-service notification-service/cmd/main.go

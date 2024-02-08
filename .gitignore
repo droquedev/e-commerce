@@ -3,3 +3,4 @@ package-lock.json
 mongo-data
 postgres-data
 pnpm-lock.yaml
+.env

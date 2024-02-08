@@ -52,6 +52,23 @@ services:
     networks:
       - mynetwork
 
+  notifiaction-service:
+    build:
+      context: .
+      args:
+        - TARGET=notification
+    container_name: notifiaction-service
+    environment:
+      NATS_URI: "nats://nats-streaming:4222"
+      NATS_CLUSTER_ID: "test-cluster"
+      NATS_CLIENT_ID: "notification-service"
+    env_file:
+      - .env
+    depends_on:
+      - nats-streaming
+    networks:
+      - mynetwork
+
   # mongo:
   #   image: mongo:latest
   #   container_name: mongo

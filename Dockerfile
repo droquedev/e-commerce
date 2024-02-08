@@ -31,4 +31,8 @@ FROM alpine as e-commerce-users-service
 COPY --from=build /app/bins/users-service /usr/local/bin
 ENTRYPOINT ["users-service"]
 
+FROM alpine as e-commerce-notification-service
+COPY --from=build /app/bins/notification-service /usr/local/bin
+ENTRYPOINT ["notification-service"]
+
 FROM e-commerce-${TARGET}-service
