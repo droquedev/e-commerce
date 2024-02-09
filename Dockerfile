@@ -20,7 +20,7 @@ RUN make bins
 EXPOSE 8080
 
 FROM debian:stable-slim AS alpine
-RUN apt update -y
+RUN apt update -y && apt install ca-certificates -y
 SHELL ["/bin/bash", "-c"]
 
 FROM alpine as e-commerce-products-service
