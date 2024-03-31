@@ -28,7 +28,6 @@ func NewUserCreatedListener(client stan.Conn, emailSender *email.EmailSender, qu
 func (l *UserCreatedListener) OnMessage(message *stan.Msg) {
 	log.Printf("Received user.created event: %s", string(message.Data))
 
-	// convert this {"id":"6e5e6e48-7c76-48a1-b8c6-a3f2172e0835","username":"manuel1fff5t","email":"bloddyangel21@gmail.com"} to a user object
 	var err error
 
 	var data map[string]interface{}
@@ -49,7 +48,8 @@ func (l *UserCreatedListener) OnMessage(message *stan.Msg) {
 		</html>
 	`
 
-	tmpl, err := template.New("test").Parse(welcomeMessage)
+	template, err := template.New("test").Parse(welcomeMessage)
+
 	if err != nil {
 		panic(err)
 	}
@@ -61,7 +61,7 @@ func (l *UserCreatedListener) OnMessage(message *stan.Msg) {
 	}
 
 	var buf bytes.Buffer
-	err = tmpl.Execute(&buf, variables)
+	err = template.Execute(&buf, variables)
 	if err != nil {
 		log.Fatal(err)
 	}
