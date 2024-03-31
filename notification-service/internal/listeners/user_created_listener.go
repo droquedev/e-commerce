@@ -66,7 +66,7 @@ func (l *UserCreatedListener) OnMessage(message *stan.Msg) {
 		log.Fatal(err)
 	}
 
-	err = l.emailSender.SendEmail(data["email"].(string), "Welcome to our platform", buf.String())
+	_, err = l.emailSender.SendEmail(data["email"].(string), "Welcome to our platform", buf.String())
 
 	if err != nil {
 		log.Printf("Error sending email: %s", err.Error())
