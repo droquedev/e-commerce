@@ -16,6 +16,9 @@ ifndef GOARCH
 GOARCH := $(shell go env GOARCH)
 endif
 
+run: 
+	@docker-compose up --build -d
+
 bins: clean-bins products-service users-service notification-service
 
 .PHONY: clean-bins
