@@ -10,7 +10,7 @@ services:
       - ./nginx/nginx.conf:/etc/nginx/nginx.conf
     depends_on:
       - users-service
-      - products-service
+      - client-service
     networks:
       - mynetwork
 
