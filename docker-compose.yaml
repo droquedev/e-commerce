@@ -33,25 +33,6 @@ services:
     networks:
       - mynetwork
 
-  products-service:
-    build:
-      context: .
-      args:
-        - TARGET=products
-    container_name: products-service
-    ports:
-      - "8081:8080"
-    environment:
-      POSTGRES_URI: "postgres://postgres:password@postgres:5432/productsdb?sslmode=disable"
-      NATS_URI: "nats://nats-streaming:4222"
-      NATS_CLUSTER_ID: "test-cluster"
-      NATS_CLIENT_ID: "products-service"
-    depends_on:
-      - postgres
-      - nats-streaming
-    networks:
-      - mynetwork
-
   notifiaction-service:
     build:
       context: .
@@ -80,23 +61,11 @@ services:
     networks:
       - mynetwork
 
-  # mongo:
-  #   image: mongo:latest
-  #   container_name: mongo
-  #   ports:
-  #     - "27017:27017"
-  #   environment:
-  #     MONGO_INITDB_DATABASE: usersdb
-  #   volumes:
-  #     - ./mongo-data:/data/db
-  #   networks:
-  #     - mynetwork
-
   postgres:
     image: postgres:latest
     container_name: postgres
     ports:
-      - "5432:5432"
+      - "5440:5432"
     environment:
       POSTGRES_DB: productsdb
       POSTGRES_USER: postgres

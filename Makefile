@@ -19,18 +19,12 @@ endif
 run: 
 	@docker-compose up --build -d
 
-bins: clean-bins products-service users-service notification-service
+bins: clean-bins users-service notification-service
 
 .PHONY: clean-bins
 clean-bins:
 	@printf $(YELLOW) "Delete old binaries..."
 	@rm -fr bins
-
-.PHONY: products-service
-products-service:
-	@printf $(BLUE) "Building products-service with OS: $(GOOS), ARCH: $(GOARCH)..."
-	@mkdir -p bins
-	@go build -o bins/products-service products-service/cmd/main.go
 
 .PHONY: users-service
 users-service:

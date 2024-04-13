@@ -15,7 +15,7 @@ func userRoutes(router *gin.Engine) {
 
 	userHandler := handlers.NewUserHandler(userUseCases)
 
-	productGroup := router.Group("/users")
+	productGroup := router.Group("/api/users")
 	{
 		productGroup.POST("/", userHandler.CreateUserHandler)
 	}
